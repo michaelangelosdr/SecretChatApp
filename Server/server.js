@@ -1,5 +1,5 @@
 'use strict'
-
+//const TestMessage = require('./testmessage_pb')
 const Express = require('express')
 const Https = require('https')
 const WebSocket = require('ws')
@@ -10,21 +10,24 @@ app.use(function (req, res) {
 })
 
 const server = Https.createServer({
-    key: FileSystem.readFileSync('key.pem'),
-    cert: FileSystem.readFileSync('cert.pem'),
-    passphrase: 'test'
+    key: FileSystem.readFileSync('gelokey.pem'),
+    cert: FileSystem.readFileSync('gelocert.pem'),
+    passphrase: 'gelo'
 }, app)
 const wss = new WebSocket.Server({ server })
 wss.on('connection', function connection(ws) {
-    ws.on('message', function incoming(message) {
-        console.log("Opened");
-        ws.send("Opened server, received data");
-        console.log('received: %s', message)
-
-    })
     
-
+    /*
+    var bytes = message.serializeBinary()
+    ws.send(bytes)
+    */
+   ws.send("ServerOpen");
 })
+
+wss.on('message', function incoming(message) {
+    console.log('received: %s', message)
+})
+
 server.listen(7070, function listening() {
     console.log('Listening on %d', server.address().port)
 })
