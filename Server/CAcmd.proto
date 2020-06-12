@@ -1,0 +1,16 @@
+syntax = "proto3";
+package chatappprotocols;
+
+message account
+{
+    required string username =1;
+    required string password =2;
+    required string nickname =3;
+
+}
+
+message chatmessage
+{
+    string sender = 1;
+    string message = 2;
+}
